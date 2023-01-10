@@ -27,6 +27,7 @@ function FirstData() {
     // const username = query.get('')
     const formRef = React.useRef();
     const [date, setDate] = useState("")
+    const [year, setYear] = useState("")
     const [body, setBody] = useState({
         username: '',
         cjb: '',
@@ -451,6 +452,7 @@ function FirstData() {
 
         else if (e.target.id === 'month') {
             // body.month = e.target.value
+            console.log("MONTH",(body.month.length===1?"0"+e.target.value:e.target.value))
             setBody({
                 username: body.username,
                 cjb: body.cjb,
@@ -464,7 +466,7 @@ function FirstData() {
                 name_cjb: body.name_cjb,
                 vol: body.vol,
                 issue: body.issue,
-                year: body.year,
+                year: year!=""?new Date(year+"-"+(e.target.value.length===1?"0"+e.target.value:(e.target.value.length===0?"01":e.target.value))+"-01").toLocaleDateString():body.year,
                 month: e.target.value,
                 doi: body.doi,
                 organised_by: body.organised_by,
@@ -731,8 +733,10 @@ function FirstData() {
         }
         else {
             // body.year = e.target.value
-            console.log("IN ELSE", e)
+            console.log("IN ELSE 1",e.target.value+"-"+(body.month===''?"01":body.month))
+            console.log("IN ELSE", ""+e.target.value+"-"+body.month===''?"01":body.month+"-01")
             setDate(e)
+            setYear(e.target.value)
             setBody({
                 username: body.username,
                 cjb: body.cjb,
@@ -746,7 +750,7 @@ function FirstData() {
                 name_cjb: body.name_cjb,
                 vol: body.vol,
                 issue: body.issue,
-                year: e,
+                year: new Date(e.target.value+"-"+(body.month===''?"01":body.month)+"-01").toLocaleDateString(),
                 month: body.month,
                 doi: body.doi,
                 organised_by: body.organised_by,
@@ -867,6 +871,8 @@ function FirstData() {
                                                                 <MenuItem value={"IT"}>IT</MenuItem>
                                                                 <MenuItem value={"ECE"}>ECE</MenuItem>
                                                                 <MenuItem value={"EEE"}>EEE</MenuItem>
+                                                                <MenuItem value={"AI/ML"}>AI/ML</MenuItem>
+                                                                <MenuItem value={"BS&H"}>BS&H</MenuItem>
                                                             </Select>
 
                                                         </FormControl>
@@ -930,10 +936,10 @@ function FirstData() {
                                             <MDBCol md='6' className='bg-indigo p-5'>
 
                                                 <TextField
-                                                    required
-                                                    id="organizor"
-                                                    name="organizor"
-                                                    label="Organizor"
+                                                    //required
+                                                    id="organizer"
+                                                    name="organizer"
+                                                    label="Organizer"
                                                     fullWidth
                                                     variant="standard"
                                                     color='secondary'
@@ -942,7 +948,7 @@ function FirstData() {
                                                 <br />
                                                 <br />
                                                 <TextField
-                                                    // required
+                                                    required
                                                     id="link"
                                                     name="link"
                                                     label="Link"
@@ -957,7 +963,7 @@ function FirstData() {
 
                                                     <MDBCol md='3'>
                                                         <TextField
-                                                            required
+                                                            //required
                                                             id="vol"
                                                             name="vol"
                                                             label="Volume"
@@ -970,7 +976,7 @@ function FirstData() {
 
                                                     <MDBCol md='3'>
                                                         <TextField
-                                                            required
+                                                            //required
                                                             id="issue"
                                                             name="issue"
                                                             label="Issue"
@@ -980,17 +986,17 @@ function FirstData() {
                                                             onChange={handleChange}
                                                         />
                                                     </MDBCol>
-                                                    <MDBCol md='6'>
-                                                        <h8 color="grey"> Month-Year* </h8>
-                                                        <DatePicker
+                                                    <MDBCol md='3'>
+                                                        
+                                                        {/* <DatePicker
                                                             selected={date}
                                                             onChange={handleChange}
                                                             dateFormat="MM/yyyy"
                                                             showMonthYearPicker
                                                             required
                                                             label="Month-Year"
-                                                        />
-                                                        {/* <TextField
+                                                        /> */}
+                                                         <TextField
                                                 required
                                                 id="year"
                                                 name="year"
@@ -1003,7 +1009,6 @@ function FirstData() {
                                                 </MDBCol>
                                                 <MDBCol md='3'>
                                                 <TextField
-                                                required
                                                 id="month"
                                                 name="month"
                                                 label="Month"
@@ -1011,7 +1016,7 @@ function FirstData() {
                                                 variant="standard"
                                                 color='secondary'
                                                 onChange={handleChange}
-                                            /> */}
+                                            /> 
                                                     </MDBCol>
 
                                                 </MDBRow>
@@ -1029,7 +1034,7 @@ function FirstData() {
                                                                 onChange={handleChangeProceedings}
                                                                 label="In Proceedings?"
                                                                 color='secondary'
-                                                                required
+                                                                //required
                                                             >
                                                                 <MenuItem value="">
                                                                     <em>None</em>
@@ -1051,7 +1056,7 @@ function FirstData() {
                                                                 onChange={handleChangePublished}
                                                                 label="Abstract Published?"
                                                                 color='secondary'
-                                                                required
+                                                                //required
                                                             >
                                                                 <MenuItem value="">
                                                                     <em>None</em>
@@ -1071,7 +1076,7 @@ function FirstData() {
                                                                 onChange={handleChangeAffiliated}
                                                                 label="Affiliated?"
                                                                 color='secondary'
-                                                                required
+                                                                //required
                                                             >
                                                                 <MenuItem value="">
                                                                     <em>None</em>
@@ -1096,7 +1101,7 @@ function FirstData() {
                                                                 onChange={handleChangeAuthorNo}
                                                                 label="Are You Author?"
                                                                 color='secondary'
-                                                                required
+                                                               // required
                                                             >
                                                                 <MenuItem value="">
                                                                     <em>None</em>
@@ -1114,7 +1119,7 @@ function FirstData() {
 
                                                     <MDBCol md='4'>
                                                         <TextField
-                                                            required
+                                                            //required
                                                             id="startingPage"
                                                             name="startingPage"
                                                             label="Starting Page"
@@ -1127,7 +1132,7 @@ function FirstData() {
                                                     </MDBCol>
                                                     <MDBCol md='4'>
                                                         <TextField
-                                                            required
+                                                           // required
                                                             id="endingPage"
                                                             name="endingPage"
                                                             label="Ending Page"
@@ -1147,7 +1152,7 @@ function FirstData() {
                                                             required
                                                             id="scopus"
                                                             name="scopus"
-                                                            label="Scopus/WoS/SCI"
+                                                            label="SCI/Scopus/WoS/Others"
                                                             fullWidth
                                                             variant="standard"
                                                             color='secondary'
